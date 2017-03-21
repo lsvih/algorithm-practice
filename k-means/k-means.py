@@ -7,10 +7,12 @@ import numpy as np
 from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 
+K=3
+
 def generateDataAndShow():
     plt.figure(figsize=(8,5))
     plt.title("Dataset", fontsize='small')
-    datas, class_info = make_blobs(n_samples=200 ,n_features=2, centers=3)
+    datas, class_info = make_blobs(n_samples=200 ,n_features=2, centers=K)
     plt.scatter(datas[:, 0], datas[:, 1], marker='o', c=class_info)
     plt.show()
     return datas
@@ -27,9 +29,8 @@ def classify(dis):
     return [i.index(min(i)) for i in dis]
 
 def calCenters(data, clazz):
-    clz = [[] for i in range(3)]
-    for index,dot in enumerate(data):
-        clz[clazz[index]].append(dot)
+    clz = [[] for i in range(K)]
+    for index,dot in enumerate(data):clz[clazz[index]].append(dot)
     return [sum(x)/len(x) for x in clz]
 
 def equal(dots1,dots2):
@@ -41,7 +42,7 @@ def equal(dots1,dots2):
 if __name__=='__main__':
     data = generateDataAndShow()
     [x_max, y_max], [x_min, y_min] = np.amax(data,axis=0),np.amin(data,axis=0)
-    centers = np.random.rand(3,2)
+    centers = np.random.rand(K,2)
     centers[0:,0] = (x_max-x_min)*centers[0:,0]+x_min
     centers[0:,1] = (y_max-y_min)*centers[0:,1]+y_min
     clazz = classify(distance(data, centers))
@@ -53,6 +54,5 @@ if __name__=='__main__':
             clazz = classify(distance(data,centers))
     plt.figure(figsize=(8,5))
     plt.title("Dataset", fontsize='small')
-    datas, class_info = make_blobs(n_samples=200 ,n_features=2, centers=3)
     plt.scatter(data[:, 0], data[:, 1], marker='o', c=clazz)
     plt.show()
