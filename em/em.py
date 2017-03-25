@@ -14,5 +14,18 @@ def generateDataAndShow():
     plt.show()
     return x1+x2
 
+def eStep():
+
+def mStep():
+
 if __name__=='__main__':
     data = generateDataAndShow()
+    mu = 70
+    while True:
+        old_mu = mu
+        eStep()
+        mStep()
+        if abs(mu-old_mu) <= 0.001:
+            break
+    plt.hist([x1,x2],50)
+    plt.show()
